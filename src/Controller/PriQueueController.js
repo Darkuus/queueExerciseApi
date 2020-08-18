@@ -3,7 +3,7 @@ const PriQueue = require ('../Model/PriQueue')
 module.exports = {
     async index(request, response) {
         let { status } = request.params
-        const queueReturn = await PriQueue.find({status: status})
+        const queueReturn = await PriQueue.find({Status: status},{'Code':false,'Status':false,'_id': false,'__v':false})
         console.log(queueReturn)
         return response.json(queueReturn)
     },
