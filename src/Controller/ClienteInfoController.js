@@ -1,14 +1,14 @@
 const PriQueue = require ('../Model/PriQueue')
+const ClientInfo = require ('../Model/ClientInfo')
 
 module.exports = {
     async index(request, response) {
-        let { status } = request.params
-        const queueReturn = await PriQueue.find({Status: status},{'_id': false,'__v':false})
-        return response.json(queueReturn)
+        let { cpf } = request.params
+        const clienteReturn = await ClientInfo.findOne({CPF: cpf},{'_id': false,'__v':false}).sort({ _id: -1 })
+        return response.json(clienteReturn)
     },
 
     async save(request, response) {
-            console.log('ph hey lets go')
             let { cpf } = request.body
 
             let PriQueueReturn = await PriQueue.findOne({},'Code -_id').sort({ _id: -1 })
@@ -18,13 +18,12 @@ module.exports = {
             else
                 code = 'CRP-1'
 
-            var queue = new PriQueue({
+            var clienteInfo = new ClientInfo({
                 Code: code,
                 CPF: cpf,
-                Status: 1
             })
 
-            const result = await PriQueue.create(queue)
+            const result = await ClientInfo.create(clienteInfo)
             return response.json(result)
     },
 }
