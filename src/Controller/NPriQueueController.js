@@ -6,7 +6,6 @@ module.exports = {
     async index(request, response) {
         let { status } = request.params
         const queueReturn = await NPriQueue.find({Status: status})
-        console.log(queueReturn)
         return response.json(queueReturn)
     },
 
