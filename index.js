@@ -17,5 +17,4 @@ mongoose.connect("mongodb+srv://Darkus:vitor123@mobiledev-wurbf.mongodb.net/queu
     }
 )
 
-
-app.listen(3333)
+app.listen(process.env.PORT || 3333)
