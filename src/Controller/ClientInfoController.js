@@ -9,21 +9,13 @@ module.exports = {
     },
 
     async save(request, response) {
-            let { cpf } = request.body
-
-            let PriQueueReturn = await PriQueue.findOne({},'Code -_id').sort({ _id: -1 })
-
-            if(PriQueueReturn)
-                code = `CRP-${parseInt(PriQueueReturn.Code.replace('CRP-','')) + 1}`
-            else
-                code = 'CRP-1'
-
-            var clienteInfo = new ClientInfo({
-                Code: code,
-                CPF: cpf,
+            let { Code, CPF } = request.body
+            const clienteInfo = new ClientInfo({
+                Code: Code,
+                CPF: CPF,
             })
-
             const result = await ClientInfo.create(clienteInfo)
+            console.log(result)
             return response.json(result)
     },
 }

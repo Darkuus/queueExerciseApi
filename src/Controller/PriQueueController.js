@@ -1,4 +1,5 @@
 const PriQueue = require ('../Model/PriQueue')
+const removeMongoProps = require('../Services/removeMongoProps')
 
 module.exports = {
     async index(request, response) {
@@ -8,7 +9,6 @@ module.exports = {
     },
 
     async save(request, response) {
-            console.log('ph hey lets go')
             let { cpf } = request.body
 
             let PriQueueReturn = await PriQueue.findOne({},'Code -_id').sort({ _id: -1 })
@@ -24,7 +24,18 @@ module.exports = {
                 Status: 1
             })
 
-            const result = await PriQueue.create(queue)
+            const result = removeMongoProps(await PriQueue.create(queue))
+            
             return response.json(result)
+    },
+
+    async disable(request, response) {
+        let { code } = request.body
+
+        let PriQueueReturn = await PriQueue.findOne({Code: code})
+        PriQueueReturn.Status = 0
+        const result = await PriQueueReturn.save()
+
+        return response.json(result)
     },
 }

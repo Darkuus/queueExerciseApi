@@ -1,4 +1,6 @@
 const NPriQueue = require ('../Model/NPriQueue')
+const removeMongoProps = require('../Services/removeMongoProps')
+
 
 module.exports = {
     async index(request, response) {
@@ -25,5 +27,16 @@ module.exports = {
             
             const result = await NPriQueue.create(queue)
             return response.json(result)
+    },
+
+    async disable(request, response) {
+        let { code } = request.body
+
+        let NPriQueueReturn = await NPriQueue.findOne({Code: code})
+        NPriQueueReturn.Status = 0
+        
+        const result = await NPriQueueReturn.save()
+        
+        return response.json(result)
     },
 }
