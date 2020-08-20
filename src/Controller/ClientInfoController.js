@@ -15,7 +15,6 @@ module.exports = {
                 CPF: CPF,
             })
             const result = await ClientInfo.create(clienteInfo)
-            console.log(result)
             return response.json(result)
     },
 }
